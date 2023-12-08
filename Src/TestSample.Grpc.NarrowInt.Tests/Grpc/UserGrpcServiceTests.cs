@@ -2,8 +2,8 @@ using FluentAssertions;
 using Moq;
 using TestSample.Domain;
 using TestSample.Domain.Users;
-using TestSample.Grpc.NarrowInt.Tests.Mocks;
 using TestSample.Grpc.proto;
+using TestSample.Tests.Framework.TestServer;
 using Xunit;
 
 namespace TestSample.Grpc.NarrowInt.Tests.Grpc;

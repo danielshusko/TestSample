@@ -31,7 +31,7 @@
     <ProjectReference Include="..\TestSample.Api\TestSample.Api.csproj" />
     <ProjectReference Include="..\TestSample.Domain\TestSample.Domain.csproj" />
     <ProjectReference Include="..\TestSample.Grpc\TestSample.Grpc.csproj" />
-    <ProjectReference Include="..\TestSample.NarrowInt.Framework\TestSample.NarrowInt.Framework.csproj" />
+    <ProjectReference Include="..\TestSample.Tests.Framework\TestSample.Tests.Framework.csproj" />
   </ItemGroup>
 
 </Project>

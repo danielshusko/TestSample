@@ -1,8 +1,8 @@
 using Microsoft.EntityFrameworkCore;
-using TestSample.Grpc.NarrowInt.Tests.Mocks;
 using TestSample.PostgreSql.Context;
 using TestSample.PostgreSql.DependencyInjection;
 using TestSample.PostgreSql.Options;
+using TestSample.Tests.Framework;
 
 namespace TestSample.PostgreSql.NarrowInt.Tests;
 

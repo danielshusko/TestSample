@@ -1,4 +1,4 @@
-namespace TestSample.Grpc.NarrowInt.Tests.Mocks;
+namespace TestSample.Tests.Framework.TestServer;
 
 public class MockService
 {

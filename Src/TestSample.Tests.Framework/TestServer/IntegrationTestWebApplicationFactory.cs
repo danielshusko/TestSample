@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
-namespace TestSample.Grpc.NarrowInt.Tests.Mocks;
+namespace TestSample.Tests.Framework.TestServer;
 
 public class IntegrationTestWebApplicationFactory<TProgram>
     : WebApplicationFactory<TProgram> where TProgram : class
