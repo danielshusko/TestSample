@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 
 namespace TestSample.PostgreSql.Models.Mappings;
+
 public class LocationMap
 {
     public void ConfigureEntity(ModelBuilder modelBuilder) =>

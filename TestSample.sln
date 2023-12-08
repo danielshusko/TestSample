@@ -19,6 +19,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestSample.PostgreSql.Unit.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestSample.Grpc.Unit.Tests", "Src\TestSample.Grpc.Unit.Tests\TestSample.Grpc.Unit.Tests.csproj", "{46B78A6C-1117-45CD-BF50-F1616B22B934}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestSample.Domain.Component.Tests", "Src\TestSample.Domain.Component.Tests\TestSample.Domain.Component.Tests.csproj", "{2F9D84A1-6817-41AA-94E5-664BB4291696}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -53,6 +55,10 @@ Global
 		{46B78A6C-1117-45CD-BF50-F1616B22B934}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{46B78A6C-1117-45CD-BF50-F1616B22B934}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{46B78A6C-1117-45CD-BF50-F1616B22B934}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2F9D84A1-6817-41AA-94E5-664BB4291696}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2F9D84A1-6817-41AA-94E5-664BB4291696}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2F9D84A1-6817-41AA-94E5-664BB4291696}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2F9D84A1-6817-41AA-94E5-664BB4291696}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -61,6 +67,7 @@ Global
 		{970C9340-60DB-4A66-9960-B564FAF7CFE6} = {16A87160-FCA6-4485-A0F7-A5E4BE572E0F}
 		{C51BFC7E-B63C-41BD-8739-F1AEEADA8E5C} = {16A87160-FCA6-4485-A0F7-A5E4BE572E0F}
 		{46B78A6C-1117-45CD-BF50-F1616B22B934} = {16A87160-FCA6-4485-A0F7-A5E4BE572E0F}
+		{2F9D84A1-6817-41AA-94E5-664BB4291696} = {16A87160-FCA6-4485-A0F7-A5E4BE572E0F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A804488E-EC77-4494-B6C9-C4698B520D17}

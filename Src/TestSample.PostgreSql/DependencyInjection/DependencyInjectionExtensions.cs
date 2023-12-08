@@ -78,6 +78,7 @@ public static class DependencyInjectionExtensions
 
         return app;
     }
+
     public static T RegisterOptions<T>(ConfigurationManager configurationManager, string sectionKey, IServiceCollection serviceCollection) where T : class, new()
     {
         var configSection = configurationManager.GetSection(sectionKey);

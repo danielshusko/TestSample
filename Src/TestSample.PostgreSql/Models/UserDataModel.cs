@@ -1,4 +1,5 @@
 namespace TestSample.PostgreSql.Models;
+
 public class UserDataModel
 {
     public int Id { get; set; }

@@ -1,7 +1,7 @@
-﻿namespace TestSample.Domain.Users;
+namespace TestSample.Domain.Users;
 
 public interface IUserService
 {
-    User Create(string firstName, string lastName);
-    User GetById(int userId);
+    Task<Result<User>> Create(string firstName, string lastName);
+    Task<Result<User>> GetById(int userId);
 }

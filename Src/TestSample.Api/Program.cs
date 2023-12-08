@@ -8,7 +8,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services
        .AddSingleton<IHttpContextAccessor, HttpContextAccessor>()
        .AddDomain()
-       .AddGrpcServices(true)
+       .AddGrpcServices()
        .AddPostgreSql(builder.Configuration);
 
 builder.WebHost.UseKestrel(

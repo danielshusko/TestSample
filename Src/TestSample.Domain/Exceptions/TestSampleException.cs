@@ -1,6 +1,12 @@
 namespace TestSample.Domain.Exceptions;
+
 public class TestSampleException : Exception
 {
-    public TestSampleException(string message)
-    : base(message) { }
+    public TestSampleExceptionType Type { get; }
+
+    public TestSampleException(string message, TestSampleExceptionType type)
+        : base(message)
+    {
+        Type = type;
+    }
 }

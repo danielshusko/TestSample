@@ -1,5 +1,7 @@
+using System;
 using System.Threading.Tasks;
 using Grpc.Core;
+using TestSample.Domain;
 using TestSample.Domain.Users;
 using TestSample.Grpc.proto;
 
@@ -14,27 +16,41 @@ public class UserGrpcService : Users.UsersBase
         _userService = userService;
     }
 
-    public override Task<UserMessage> Create(CreateUserRequestMessage request, ServerCallContext context)
+    public override async Task<UserMessage> Create(CreateUserRequestMessage request, ServerCallContext context)
     {
-        var user = _userService.Create(request.FirstName, request.LastName);
-        return Task.FromResult(
-            new UserMessage
-            {
-                Id = user.Id,
-                FirstName = user.FirstName,
-                LastName = user.LastName
-            });
+        var userResult = await _userService.Create(request.FirstName, request.LastName);
+        return HandleResult(
+            userResult,
+            user => new UserMessage
+                    {
+                        Id = user.Id,
+                        FirstName = user.FirstName,
+                        LastName = user.LastName
+                    }
+        );
     }
 
-    public override Task<UserMessage> GetById(IdMessage request, ServerCallContext context)
+    public override async Task<UserMessage> GetById(IdMessage request, ServerCallContext context)
     {
-        var user = _userService.GetById(request.Id);
-        return Task.FromResult(
-            new UserMessage
-            {
-                Id = user.Id,
-                FirstName = user.FirstName,
-                LastName = user.LastName
-            });
+        var userResult = await _userService.GetById(request.Id);
+        return HandleResult(
+            userResult,
+            user => new UserMessage
+                    {
+                        Id = user.Id,
+                        FirstName = user.FirstName,
+                        LastName = user.LastName
+                    }
+        );
+    }
+
+    private TOut HandleResult<TResult, TOut>(Result<TResult> result, Func<TResult, TOut> mapFunc)
+    {
+        if (result.IsSuccess)
+        {
+            return mapFunc(result.Value!);
+        }
+
+        throw result.Error!;
     }
 }

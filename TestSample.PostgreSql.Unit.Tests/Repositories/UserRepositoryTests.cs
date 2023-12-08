@@ -3,26 +3,26 @@ using TestSample.PostgreSql.Repositories;
 using TestSample.PostgreSql.Unit.Tests.Mocks;
 using Xunit;
 
-namespace TestSample.PostgreSql.Unit.Tests.Repositories
+namespace TestSample.PostgreSql.Unit.Tests.Repositories;
+
+public class UserRepositoryTests
 {
-    public class UserRepositoryTests
+    private readonly UserRepository _userRepository = new(InMemoryDb.NewTestSampleContext());
+
+    [Fact]
+    public void Create_WithValidData_ReturnsUser()
     {
-        private readonly UserRepository _userRepository = new(InMemoryDb.NewTestSampleContext());
+        // Arrange
+        var firstName = "first";
+        var lastName = "last";
 
-        [Fact]
-        public void Create_WithValidData_ReturnsUser()
-        {
-            // Arrange
-            var firstName = "first";
-            var lastName = "last";
+        // Act
+        var result = _userRepository.Create(firstName, lastName).Result;
 
-            // Act
-            var result = _userRepository.Create(firstName, lastName);
-
-            // Assert
-            result.Id.Should().Be(1);
-            result.FirstName.Should().Be(firstName);
-            result.LastName.Should().Be(lastName);
-        }
+        // Assert
+        result.IsSuccess.Should().BeTrue();
+        result.Value!.Id.Should().Be(1);
+        result.Value!.FirstName.Should().Be(firstName);
+        result.Value!.LastName.Should().Be(lastName);
     }
 }

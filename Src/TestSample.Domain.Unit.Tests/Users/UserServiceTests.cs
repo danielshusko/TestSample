@@ -5,6 +5,7 @@ using TestSample.Domain.Users;
 using Xunit;
 
 namespace TestSample.Domain.Unit.Tests.Users;
+
 public class UserServiceTests
 {
     private readonly Mock<IUserRepository> _mockUserRepository;
@@ -13,6 +14,10 @@ public class UserServiceTests
     public UserServiceTests()
     {
         _mockUserRepository = new Mock<IUserRepository>();
+        _mockUserRepository
+            .Setup(x => x.Create(It.IsAny<string>(), It.IsAny<string>()))
+            .ReturnsAsync((string firstName, string lastName) => new User(1, firstName, lastName));
+
         _userService = new UserService(_mockUserRepository.Object);
     }
 
@@ -23,17 +28,14 @@ public class UserServiceTests
         var firstName = "First";
         var lastName = "Name";
 
-        _mockUserRepository
-            .Setup(x => x.Create(It.IsAny<string>(), It.IsAny<string>()))
-            .Returns((string firstName, string lastName) => new User(1, firstName, lastName));
-
         // Act
-        var result = _userService.Create(firstName, lastName);
+        var result = _userService.Create(firstName, lastName).Result;
 
         // Assert
-        result.Id.Should().Be(1);
-        result.FirstName.Should().Be(firstName);
-        result.LastName.Should().Be(lastName);
+        result.IsSuccess.Should().BeTrue();
+        result.Value!.Id.Should().Be(1);
+        result.Value!.FirstName.Should().Be(firstName);
+        result.Value!.LastName.Should().Be(lastName);
     }
 
     [Fact]
@@ -43,14 +45,11 @@ public class UserServiceTests
         var firstName = string.Empty;
         var lastName = "Name";
 
-        _mockUserRepository
-            .Setup(x => x.Create(It.IsAny<string>(), It.IsAny<string>()))
-            .Returns((string firstName, string lastName) => new User(1, firstName, lastName));
-
         // Act
-        var testMethod =()=> _userService.Create(firstName, lastName);
+        var result = _userService.Create(firstName, lastName).Result;
 
         // Assert
-        testMethod.Should().Throw<TestSampleValidationException>();
+        result.IsSuccess.Should().BeFalse();
+        result.Error.Should().BeOfType<TestSampleValidationException>();
     }
 }

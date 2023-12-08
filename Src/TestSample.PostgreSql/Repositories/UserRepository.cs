@@ -1,4 +1,9 @@
+using System;
 using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+using TestSample.Domain;
+using TestSample.Domain.Exceptions;
 using TestSample.Domain.Users;
 using TestSample.PostgreSql.Context;
 using TestSample.PostgreSql.Models;
@@ -14,20 +19,37 @@ public class UserRepository : IUserRepository
         _context = context;
     }
 
-    public User Create(string firstName, string lastName)
+    public async Task<Result<User>> Create(string firstName, string lastName)
     {
-        var dataModel = new UserDataModel
-                        {
-                            FirstName = firstName,
-                            LastName = lastName
-                        };
-        _context.Users.Add(dataModel);
-        _context.SaveChanges();
-        return new User(dataModel.Id, dataModel.FirstName, dataModel.LastName);
+        try
+        {
+            var dataModel = new UserDataModel
+                            {
+                                FirstName = firstName,
+                                LastName = lastName
+                            };
+            await _context.Users.AddAsync(dataModel);
+            await _context.SaveChangesAsync();
+            return new User(dataModel.Id, dataModel.FirstName, dataModel.LastName);
+        }
+        catch (Exception ex)
+        {
+            return new TestSampleException(ex.Message, TestSampleExceptionType.Unknown);
+        }
     }
 
-    public User? GetById(int id) => _context.Users
-                                            .Where(x => x.Id == id)
-                                            .Select(x => new User(x.Id, x.FirstName, x.LastName))
-                                            .FirstOrDefault();
+    public async Task<Result<User>> GetById(int id)
+    {
+        var user = await _context.Users
+                                 .Where(x => x.Id == id)
+                                 .Select(x => new User(x.Id, x.FirstName, x.LastName))
+                                 .FirstOrDefaultAsync();
+
+        if (user == null)
+        {
+            return new TestSampleNotFoundException("User not found");
+        }
+
+        return user;
+    }
 }
