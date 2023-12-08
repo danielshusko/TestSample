@@ -14,7 +14,7 @@ public class UserGrpcService : Users.UsersBase
         _userService = userService;
     }
 
-    public override Task<UserMessage> Create(CreateRequestMessage request, ServerCallContext context)
+    public override Task<UserMessage> Create(CreateUserRequestMessage request, ServerCallContext context)
     {
         var user = _userService.Create(request.FirstName, request.LastName);
         return Task.FromResult(
