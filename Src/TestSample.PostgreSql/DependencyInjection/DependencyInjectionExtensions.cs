@@ -32,20 +32,7 @@ public static class DependencyInjectionExtensions
         serviceCollection.AddDbContext<TestSampleContext>(
             options =>
             {
-                /* Set no reset on close true here to avoid an issue where the table owner gets set to a specific DbaaS user
-                 *  instead of the role when the connection resets, resulting in not having access to the tables we create:
-                 * see https://stackoverflow.com/questions/59633027/how-to-set-default-owner-of-objects-created-by-ef-core-code-first-using-postgres
-                 */
-                var connectionString = $"USER ID = {postgreSqlOptions.UserId}; " +
-                                       $"Password = {postgreSqlOptions.Password}; " +
-                                       $"Server = {postgreSqlOptions.Server}; " +
-                                       $"Port = {postgreSqlOptions.Port}; " +
-                                       $"Database = {postgreSqlOptions.Database}; " +
-                                       $"SearchPath = {postgreSqlOptions.Schema}; " +
-                                       "Integrated Security = true; " +
-                                       "No reset on close = true;" +
-                                       "Pooling = true";
-
+                var connectionString = CreateConnectionString(postgreSqlOptions);
                 options.UseNpgsql(
                     connectionString,
                     x =>
@@ -89,4 +76,19 @@ public static class DependencyInjectionExtensions
 
         return options;
     }
+
+    /// <remarks> Set no reset on close true here to avoid an issue where the table owner gets set to a specific DbaaS user
+    ///   instead of the role when the connection resets, resulting in not having access to the tables we create:
+    ///  see https://stackoverflow.com/questions/59633027/how-to-set-default-owner-of-objects-created-by-ef-core-code-first-using-postgres
+    /// </remarks>
+    public static string CreateConnectionString(PostgreSqlOptions postgreSqlOptions) =>
+        $"USER ID = {postgreSqlOptions.UserId}; " +
+        $"Password = {postgreSqlOptions.Password}; " +
+        $"Server = {postgreSqlOptions.Server}; " +
+        $"Port = {postgreSqlOptions.Port}; " +
+        $"Database = {postgreSqlOptions.Database}; " +
+        $"SearchPath = {postgreSqlOptions.Schema}; " +
+        "Integrated Security = true; " +
+        "No reset on close = true;" +
+        "Pooling = true";
 }

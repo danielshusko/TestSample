@@ -11,7 +11,7 @@ using TestSample.PostgreSql.Context;
 namespace TestSample.PostgreSql.Migrations
 {
     [DbContext(typeof(TestSampleContext))]
-    [Migration("20231208130206_initial")]
+    [Migration("20231208202945_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -30,19 +30,24 @@ namespace TestSample.PostgreSql.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityAlwaysColumn(b.Property<int>("Id"));
 
                     b.Property<string>("FirstName")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(25)
+                        .HasColumnType("character varying(25)");
 
                     b.Property<string>("LastName")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(25)
+                        .HasColumnType("character varying(25)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Users");
+                    b.HasIndex("FirstName", "LastName")
+                        .IsUnique();
+
+                    b.ToTable("User", (string)null);
                 });
 #pragma warning restore 612, 618
         }

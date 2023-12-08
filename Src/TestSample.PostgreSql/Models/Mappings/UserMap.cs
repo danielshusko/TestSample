@@ -2,14 +2,16 @@ using Microsoft.EntityFrameworkCore;
 
 namespace TestSample.PostgreSql.Models.Mappings;
 
-public class LocationMap
+public static class UserMap
 {
-    public void ConfigureEntity(ModelBuilder modelBuilder) =>
+    public static void ConfigureEntity(ModelBuilder modelBuilder) =>
         modelBuilder.Entity<UserDataModel>(
             builder =>
             {
-                builder.ToTable("Location");
+                builder.ToTable("User");
                 builder.HasKey(x => x.Id);
+                builder.HasIndex(x => new { x.FirstName, x.LastName })
+                       .IsUnique();
                 builder.Property(x => x.Id)
                        .UseIdentityAlwaysColumn();
                 builder.Property(x => x.FirstName)

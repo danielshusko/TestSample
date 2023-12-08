@@ -9,4 +9,9 @@ public class TestSampleException : Exception
     {
         Type = type;
     }
+    public TestSampleException(string message, TestSampleExceptionType type, Exception innerException)
+        : base(message, innerException)
+    {
+        Type = type;
+    }
 }

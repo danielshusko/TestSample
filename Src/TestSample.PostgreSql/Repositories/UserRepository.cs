@@ -34,7 +34,7 @@ public class UserRepository : IUserRepository
         }
         catch (Exception ex)
         {
-            return new TestSampleException(ex.Message, TestSampleExceptionType.Unknown);
+            return new TestSampleException(ex.Message, TestSampleExceptionType.Unknown, ex);
         }
     }
 
