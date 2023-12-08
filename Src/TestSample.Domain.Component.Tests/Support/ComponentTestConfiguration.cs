@@ -1,5 +1,6 @@
 using BoDi;
 using Microsoft.EntityFrameworkCore;
+using TechTalk.SpecFlow;
 using TestSample.Domain.Users;
 using TestSample.PostgreSql.Context;
 using TestSample.PostgreSql.Repositories;

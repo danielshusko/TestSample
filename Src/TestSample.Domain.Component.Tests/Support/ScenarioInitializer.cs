@@ -1,3 +1,5 @@
+using TechTalk.SpecFlow;
+
 namespace TestSample.Domain.Component.Tests.Support;
 
 public static class ScenarioInitializer

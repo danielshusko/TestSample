@@ -1,3 +1,4 @@
+using TechTalk.SpecFlow;
 using TestSample.Domain.Users;
 
 namespace TestSample.Domain.Component.Tests.Users;
