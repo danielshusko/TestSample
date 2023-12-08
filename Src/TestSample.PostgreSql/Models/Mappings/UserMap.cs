@@ -10,10 +10,13 @@ public static class UserMap
             {
                 builder.ToTable("User");
                 builder.HasKey(x => x.Id);
-                builder.HasIndex(x => new { x.FirstName, x.LastName })
+                builder.HasIndex(x => new { x.TenantId, x.FirstName, x.LastName })
                        .IsUnique();
                 builder.Property(x => x.Id)
                        .UseIdentityAlwaysColumn();
+                builder.Property(x => x.TenantId)
+                       .IsRequired()
+                       .HasMaxLength(50);
                 builder.Property(x => x.FirstName)
                        .IsRequired()
                        .HasMaxLength(25);

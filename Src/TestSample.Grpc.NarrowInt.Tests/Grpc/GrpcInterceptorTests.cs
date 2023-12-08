@@ -31,8 +31,8 @@ public class GrpcInterceptorTests
         var lastName = "last";
 
         _mockUserService
-            .Setup(x => x.Create(It.IsAny<string>(), It.IsAny<string>()))
-            .ReturnsAsync((string fName, string lName) => new Result<User>(new User(1, fName, lName)));
+            .Setup(x => x.Create(It.IsAny<string>(),It.IsAny<string>(), It.IsAny<string>()))
+            .ReturnsAsync((string _, string fName, string lName) => new Result<User>(new User(1, fName, lName)));
 
         // Act
         var result = _usersClient.Create(
@@ -56,7 +56,7 @@ public class GrpcInterceptorTests
         var lastName = "last";
 
         _mockUserService
-            .Setup(x => x.Create(It.IsAny<string>(), It.IsAny<string>()))
+            .Setup(x => x.Create(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()))
             .ThrowsAsync(new NullReferenceException());
 
         // Act
@@ -81,7 +81,7 @@ public class GrpcInterceptorTests
         var errorMessage = "not found";
 
         _mockUserService
-            .Setup(x => x.Create(It.IsAny<string>(), It.IsAny<string>()))
+            .Setup(x => x.Create(It.IsAny<string>(),It.IsAny<string>(), It.IsAny<string>()))
             .ThrowsAsync(new TestSampleNotFoundException(errorMessage));
 
         // Act
@@ -106,7 +106,7 @@ public class GrpcInterceptorTests
         var errorMessage = "invalid";
 
         _mockUserService
-            .Setup(x => x.Create(It.IsAny<string>(), It.IsAny<string>()))
+            .Setup(x => x.Create(It.IsAny<string>(),It.IsAny<string>(), It.IsAny<string>()))
             .ThrowsAsync(new TestSampleValidationException(errorMessage));
 
         // Act

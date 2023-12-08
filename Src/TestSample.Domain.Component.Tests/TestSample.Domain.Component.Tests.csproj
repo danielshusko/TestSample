@@ -20,6 +20,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\TestSample.PostgreSql\TestSample.PostgreSql.csproj" />
+    <ProjectReference Include="..\TestSample.Tests.Framework\TestSample.Tests.Framework.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,4 +1,4 @@
-namespace TestSample.Domain.Component.Tests.Support;
+namespace TestSample.Tests.Framework.Specflow;
 
 public enum ScenarioContextKey
 {

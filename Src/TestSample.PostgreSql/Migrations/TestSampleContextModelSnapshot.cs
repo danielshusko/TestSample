@@ -39,9 +39,14 @@ namespace TestSample.PostgreSql.Migrations
                         .HasMaxLength(25)
                         .HasColumnType("character varying(25)");
 
+                    b.Property<string>("TenantId")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("FirstName", "LastName")
+                    b.HasIndex("TenantId", "FirstName", "LastName")
                         .IsUnique();
 
                     b.ToTable("User", (string)null);

@@ -18,7 +18,7 @@ public class UserGrpcService : Users.UsersBase
 
     public override async Task<UserMessage> Create(CreateUserRequestMessage request, ServerCallContext context)
     {
-        var userResult = await _userService.Create(request.FirstName, request.LastName);
+        var userResult = await _userService.Create(request.TenantId, request.FirstName, request.LastName);
         return HandleResult(
             userResult,
             user => new UserMessage
@@ -32,7 +32,7 @@ public class UserGrpcService : Users.UsersBase
 
     public override async Task<UserMessage> GetById(IdMessage request, ServerCallContext context)
     {
-        var userResult = await _userService.GetById(request.Id);
+        var userResult = await _userService.GetById(request.TenantId, request.Id);
         return HandleResult(
             userResult,
             user => new UserMessage
@@ -44,7 +44,7 @@ public class UserGrpcService : Users.UsersBase
         );
     }
 
-    private TOut HandleResult<TResult, TOut>(Result<TResult> result, Func<TResult, TOut> mapFunc)
+    private static TOut HandleResult<TResult, TOut>(Result<TResult> result, Func<TResult, TOut> mapFunc)
     {
         if (result.IsSuccess)
         {

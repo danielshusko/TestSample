@@ -1,6 +1,6 @@
 using TechTalk.SpecFlow;
 
-namespace TestSample.Domain.Component.Tests.Support;
+namespace TestSample.Tests.Framework.Specflow;
 
 public static class ScenarioInitializer
 {

@@ -17,6 +17,7 @@ namespace TestSample.PostgreSql.Migrations
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityAlwaysColumn),
+                    TenantId = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
                     FirstName = table.Column<string>(type: "character varying(25)", maxLength: 25, nullable: false),
                     LastName = table.Column<string>(type: "character varying(25)", maxLength: 25, nullable: false)
                 },
@@ -26,9 +27,9 @@ namespace TestSample.PostgreSql.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_User_FirstName_LastName",
+                name: "IX_User_TenantId_FirstName_LastName",
                 table: "User",
-                columns: new[] { "FirstName", "LastName" },
+                columns: new[] { "TenantId", "FirstName", "LastName" },
                 unique: true);
         }
 

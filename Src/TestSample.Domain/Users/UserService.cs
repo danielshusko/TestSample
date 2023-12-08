@@ -11,15 +11,15 @@ public class UserService : IUserService
         _userRepository = userRepository;
     }
 
-    public Task<Result<User>> Create(string firstName, string lastName)
+    public Task<Result<User>> Create(string tenantId, string firstName, string lastName)
     {
         if (string.IsNullOrWhiteSpace(firstName) || string.IsNullOrWhiteSpace(lastName))
         {
             return Task.FromResult(new Result<User>(new TestSampleValidationException("First and Last name cannot be empty.")));
         }
 
-        return _userRepository.Create(firstName, lastName);
+        return _userRepository.Create(tenantId, firstName, lastName);
     }
 
-    public Task<Result<User>> GetById(int userId) => _userRepository.GetById(userId);
+    public Task<Result<User>> GetById(string tenantId, int userId) => _userRepository.GetById(tenantId, userId);
 }

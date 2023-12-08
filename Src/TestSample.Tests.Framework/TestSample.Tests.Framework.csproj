@@ -9,6 +9,7 @@
   <ItemGroup>
     <PackageReference Include="Grpc.Net.Client" Version="2.55.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="7.0.14" />
+    <PackageReference Include="SpecFlow" Version="3.9.40" />
   </ItemGroup>
 
   <ItemGroup>

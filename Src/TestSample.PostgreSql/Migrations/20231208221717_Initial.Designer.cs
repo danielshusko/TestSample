@@ -11,7 +11,7 @@ using TestSample.PostgreSql.Context;
 namespace TestSample.PostgreSql.Migrations
 {
     [DbContext(typeof(TestSampleContext))]
-    [Migration("20231208202945_Initial")]
+    [Migration("20231208221717_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -42,9 +42,14 @@ namespace TestSample.PostgreSql.Migrations
                         .HasMaxLength(25)
                         .HasColumnType("character varying(25)");
 
+                    b.Property<string>("TenantId")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("FirstName", "LastName")
+                    b.HasIndex("TenantId", "FirstName", "LastName")
                         .IsUnique();
 
                     b.ToTable("User", (string)null);

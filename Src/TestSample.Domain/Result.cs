@@ -2,9 +2,24 @@ using TestSample.Domain.Exceptions;
 
 namespace TestSample.Domain;
 
-public class Result<TValue>
+public class Result<TValue> : Result<TValue, TestSampleException>
 {
-    public readonly TestSampleException? Error;
+    public Result(TValue value) : base(value)
+    {
+    }
+
+    public Result(TestSampleException error) : base(error)
+    {
+    }
+
+    public static implicit operator Result<TValue>(TValue value) => new(value);
+
+    public static implicit operator Result<TValue>(TestSampleException error) => new(error);
+}
+
+public class Result<TValue, TException>
+{
+    public readonly TException? Error;
     public readonly TValue? Value;
 
     public bool IsSuccess { get; }
@@ -16,19 +31,17 @@ public class Result<TValue>
         Error = default;
     }
 
-    public Result(TestSampleException error)
+    public Result(TException error)
     {
         IsSuccess = false;
         Value = default;
         Error = error;
     }
 
-    //happy path
-    public static implicit operator Result<TValue>(TValue value) => new(value);
+    public static implicit operator Result<TValue, TException>(TValue value) => new(value);
 
-    //error path
-    public static implicit operator Result<TValue>(TestSampleException error) => new(error);
+    public static implicit operator Result<TValue, TException>(TException error) => new(error);
 
-    public Result<TValue> Match(Func<TValue, Result<TValue>> success, Func<TestSampleException, Result<TValue>> failure) =>
+    public Result<TValue> Match(Func<TValue, Result<TValue>> success, Func<TException, Result<TValue>> failure) =>
         IsSuccess ? success(Value!) : failure(Error!);
 }

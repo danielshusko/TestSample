@@ -19,12 +19,13 @@ public class UserRepository : IUserRepository
         _context = context;
     }
 
-    public async Task<Result<User>> Create(string firstName, string lastName)
+    public async Task<Result<User>> Create(string tenantId, string firstName, string lastName)
     {
         try
         {
             var dataModel = new UserDataModel
                             {
+                                TenantId = tenantId,
                                 FirstName = firstName,
                                 LastName = lastName
                             };
@@ -38,10 +39,10 @@ public class UserRepository : IUserRepository
         }
     }
 
-    public async Task<Result<User>> GetById(int id)
+    public async Task<Result<User>> GetById(string tenantId, int id)
     {
         var user = await _context.Users
-                                 .Where(x => x.Id == id)
+                                 .Where(x => x.Id == id && x.TenantId == tenantId)
                                  .Select(x => new User(x.Id, x.FirstName, x.LastName))
                                  .FirstOrDefaultAsync();
 

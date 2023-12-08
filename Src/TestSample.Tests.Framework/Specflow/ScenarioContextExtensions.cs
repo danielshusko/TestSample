@@ -1,7 +1,7 @@
 using TechTalk.SpecFlow;
 using TestSample.Domain.Exceptions;
 
-namespace TestSample.Domain.Component.Tests.Support;
+namespace TestSample.Tests.Framework.Specflow;
 
 public static class ScenarioContextExtensions
 {

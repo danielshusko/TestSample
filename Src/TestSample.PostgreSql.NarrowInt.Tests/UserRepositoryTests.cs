@@ -10,10 +10,12 @@ namespace TestSample.PostgreSql.NarrowInt.Tests;
 
 public class UserRepositoryTests : BaseRepositoryTests
 {
+    private readonly string _tenantId;
     private readonly UserRepository _userRepository;
 
     public UserRepositoryTests()
     {
+        _tenantId = Guid.NewGuid().ToString();
         _userRepository = new UserRepository(_context);
     }
 
@@ -27,7 +29,7 @@ public class UserRepositoryTests : BaseRepositoryTests
         var expectedResult = new User(-1, firstName, lastName);
 
         // Act
-        var result = _userRepository.Create(firstName, lastName).Result;
+        var result = _userRepository.Create(_tenantId, firstName, lastName).Result;
 
         // Assert
         result.IsSuccess.Should().BeTrue();
@@ -45,16 +47,16 @@ public class UserRepositoryTests : BaseRepositoryTests
         var lastName = $"last_{DateTime.UtcNow:yyyyMMddHHmmssffff}";
 
         // Act
-        var result = _userRepository.Create(firstName, lastName).Result;
+        var result = _userRepository.Create(_tenantId, firstName, lastName).Result;
         result.IsSuccess.Should().BeTrue();
-        result = _userRepository.Create(firstName, lastName).Result;
+        result = _userRepository.Create(_tenantId, firstName, lastName).Result;
 
         // Assert
         result.IsSuccess.Should().BeFalse();
         result.Error!.Type.Should().Be(TestSampleExceptionType.Unknown);
         result.Error!.InnerException.Should().BeOfType<DbUpdateException>();
         result.Error!.InnerException!.InnerException.Should().BeOfType<PostgresException>();
-        result.Error!.InnerException!.InnerException.As<PostgresException>().Message.Should().StartWith("23505: duplicate key value violates unique constraint \"IX_User_FirstName_LastName\"");
+        result.Error!.InnerException!.InnerException.As<PostgresException>().Message.Should().StartWith("23505: duplicate key value violates unique constraint \"IX_User_TenantId_FirstName_LastName\"");
     }
 
     [Fact]
@@ -65,7 +67,7 @@ public class UserRepositoryTests : BaseRepositoryTests
         var lastName = $"last_{DateTime.UtcNow:yyyyMMddHHmmssffff}";
 
         // Act
-        var result = _userRepository.Create(firstName, lastName).Result;
+        var result = _userRepository.Create(_tenantId, firstName, lastName).Result;
 
         // Assert
         result.IsSuccess.Should().BeFalse();

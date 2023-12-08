@@ -7,6 +7,8 @@ namespace TestSample.PostgreSql.Unit.Tests.Repositories;
 
 public class UserRepositoryTests
 {
+    private const string TenantId = "tenant";
+
     private readonly UserRepository _userRepository = new(InMemoryDb.NewTestSampleContext());
 
     [Fact]
@@ -17,7 +19,7 @@ public class UserRepositoryTests
         var lastName = "last";
 
         // Act
-        var result = _userRepository.Create(firstName, lastName).Result;
+        var result = _userRepository.Create(TenantId, firstName, lastName).Result;
 
         // Assert
         result.IsSuccess.Should().BeTrue();

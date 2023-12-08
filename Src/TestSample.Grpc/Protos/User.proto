@@ -27,12 +27,14 @@ service Users {
 }
 
 message IdMessage{
-    int32 id = 1;
+    string tenant_id = 1;
+    int32 id = 2;
 }
 
 message CreateUserRequestMessage {
-    string first_name = 1;
-    string last_name = 2;
+    string tenant_id = 1;
+    string first_name = 2;
+    string last_name = 3;
 }
 
 message UserMessage {

@@ -46,8 +46,8 @@ public class UserGrpcServiceTests
                              };
 
         _mockUserService
-            .Setup(x => x.Create(It.IsAny<string>(), It.IsAny<string>()))
-            .ReturnsAsync((string fName, string lName) => new Result<User>(new User(1, fName, lName)));
+            .Setup(x => x.Create(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()))
+            .ReturnsAsync((string _, string fName, string lName) => new Result<User>(new User(1, fName, lName)));
 
         // Act
         var result = _usersClient.Execute<UserMessage>(request);

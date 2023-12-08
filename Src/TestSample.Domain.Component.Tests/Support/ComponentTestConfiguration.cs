@@ -4,6 +4,7 @@ using TechTalk.SpecFlow;
 using TestSample.Domain.Users;
 using TestSample.PostgreSql.Context;
 using TestSample.PostgreSql.Repositories;
+using TestSample.Tests.Framework.Specflow;
 
 namespace TestSample.Domain.Component.Tests.Support;
 

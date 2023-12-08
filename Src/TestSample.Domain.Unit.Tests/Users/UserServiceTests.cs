@@ -8,17 +8,17 @@ namespace TestSample.Domain.Unit.Tests.Users;
 
 public class UserServiceTests
 {
-    private readonly Mock<IUserRepository> _mockUserRepository;
+    private const string TenantId = "tenant";
     private readonly UserService _userService;
 
     public UserServiceTests()
     {
-        _mockUserRepository = new Mock<IUserRepository>();
-        _mockUserRepository
-            .Setup(x => x.Create(It.IsAny<string>(), It.IsAny<string>()))
-            .ReturnsAsync((string firstName, string lastName) => new User(1, firstName, lastName));
+        Mock<IUserRepository> mockUserRepository = new();
+        mockUserRepository
+            .Setup(x => x.Create(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()))
+            .ReturnsAsync((string _, string firstName, string lastName) => new User(1, firstName, lastName));
 
-        _userService = new UserService(_mockUserRepository.Object);
+        _userService = new UserService(mockUserRepository.Object);
     }
 
     [Fact]
@@ -29,7 +29,7 @@ public class UserServiceTests
         var lastName = "Name";
 
         // Act
-        var result = _userService.Create(firstName, lastName).Result;
+        var result = _userService.Create(TenantId, firstName, lastName).Result;
 
         // Assert
         result.IsSuccess.Should().BeTrue();
@@ -46,7 +46,7 @@ public class UserServiceTests
         var lastName = "Name";
 
         // Act
-        var result = _userService.Create(firstName, lastName).Result;
+        var result = _userService.Create(TenantId,firstName, lastName).Result;
 
         // Assert
         result.IsSuccess.Should().BeFalse();

@@ -8,17 +8,17 @@ namespace TestSample.Grpc.Unit.Tests;
 
 public class UserGrpcServiceTests
 {
-    private readonly Mock<IUserService> _mockUserService;
+    private const string TenantId = "tenant";
     private readonly UserGrpcService _userGrpcService;
 
     public UserGrpcServiceTests()
     {
-        _mockUserService = new Mock<IUserService>();
-        _mockUserService
-            .Setup(x => x.Create(It.IsAny<string>(), It.IsAny<string>()))
-            .ReturnsAsync((string firstName, string lastName) => new User(1, firstName, lastName));
+        Mock<IUserService> mockUserService = new();
+        mockUserService
+            .Setup(x => x.Create(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()))
+            .ReturnsAsync((string _, string firstName, string lastName) => new User(1, firstName, lastName));
 
-        _userGrpcService = new UserGrpcService(_mockUserService.Object);
+        _userGrpcService = new UserGrpcService(mockUserService.Object);
     }
 
     [Fact]
@@ -29,6 +29,7 @@ public class UserGrpcServiceTests
         var lastName = "last";
         var request = new CreateUserRequestMessage
                       {
+                          TenantId = TenantId,
                           FirstName = firstName,
                           LastName = lastName
                       };
