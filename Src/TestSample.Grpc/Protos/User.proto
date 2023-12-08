@@ -1,0 +1,42 @@
+syntax = "proto3";
+
+option csharp_namespace = "TestSample.Grpc.proto";
+option go_package = "TestSample/Grpc/proto";
+
+import "google/api/annotations.proto";
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/empty.proto";
+
+package user;
+
+service Users {
+  // Creates a new Location.
+  rpc Create (CreateRequestMessage) returns (UserMessage) {
+	option (google.api.http) = {
+      post: "/api/users",
+      body: "*"
+    };
+  }
+
+  // Gets a Location by its id.
+  rpc GetById (IdMessage) returns (UserMessage) {
+	option (google.api.http) = {
+      get: "/api/users/{id}"
+    };
+  }
+}
+
+message IdMessage{
+    int32 id = 1;
+}
+
+message CreateRequestMessage {
+    string first_name = 1;
+    string last_name = 2;
+}
+
+message UserMessage {
+    int32 id = 1;
+    string first_name = 2;
+    string last_name = 3;
+}

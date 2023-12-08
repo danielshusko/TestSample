@@ -1,0 +1,14 @@
+<Project>
+    <ItemGroup>
+        <PackageReference Update="Microsoft.EntityFrameworkCore" Version="7.0.*" />
+		<PackageReference Update="Microsoft.EntityFrameworkCore.Relational" Version="7.0.*" />
+		<PackageReference Update="Microsoft.EntityFrameworkCore.Design" Version="7.0.*" />
+		<PackageReference Update="Microsoft.EntityFrameworkCore.InMemory" Version="7.0.*" />
+		<PackageReference Update="Microsoft.EntityFrameworkCore.Proxies" Version="7.0.*" />
+		<PackageReference Update="Microsoft.EntityFrameworkCore.Tools" Version="7.0.*" />
+		<PackageReference Update="Microsoft.AspNetCore.Grpc.JsonTranscoding" Version="7.0.*" />
+		<PackageReference Update="Microsoft.AspNetCore.Mvc.Testing" Version="7.0.*" />
+		<PackageReference Update="Microsoft.Extensions.Diagnostics.HealthChecks.EntityFrameworkCore" Version="7.0.*" />
+		<PackageReference Update="Newtonsoft.Json" Version="13.0.*" />
+    </ItemGroup>
+</Project>
