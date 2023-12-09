@@ -4,13 +4,9 @@ namespace TestSample.Domain;
 
 public class Result<TValue> : Result<TValue, TestSampleException>
 {
-    public Result(TValue value) : base(value)
-    {
-    }
+    public Result(TValue value) : base(value) { }
 
-    public Result(TestSampleException error) : base(error)
-    {
-    }
+    public Result(TestSampleException error) : base(error) { }
 
     public static implicit operator Result<TValue>(TValue value) => new(value);
 
@@ -41,7 +37,4 @@ public class Result<TValue, TException>
     public static implicit operator Result<TValue, TException>(TValue value) => new(value);
 
     public static implicit operator Result<TValue, TException>(TException error) => new(error);
-
-    public Result<TValue> Match(Func<TValue, Result<TValue>> success, Func<TException, Result<TValue>> failure) =>
-        IsSuccess ? success(Value!) : failure(Error!);
 }

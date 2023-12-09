@@ -27,7 +27,7 @@ public class UserGrpcServiceTests
         // Arrange
         var firstName = "first";
         var lastName = "last";
-        var request = new CreateUserRequestMessage
+        var request = new UserFirstAndLastNameMessage
                       {
                           TenantId = TenantId,
                           FirstName = firstName,

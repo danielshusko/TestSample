@@ -1,5 +1,3 @@
-using System;
-
 namespace TestSample.PostgreSql.Models;
 
 public class UserDataModel

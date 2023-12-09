@@ -24,7 +24,7 @@ public class GrpcInterceptorTests
         var integrationTestServer = new IntegrationTestServer(new MockService(typeof(IUserService), _mockUserService.Object));
         _usersClient = new RestClient(integrationTestServer.HttpClient);
     }
-    
+
     [Fact]
     public void Call_WithSuccess_ReturnsResult()
     {
@@ -32,13 +32,13 @@ public class GrpcInterceptorTests
         var firstName = "first";
         var lastName = "last";
 
-        var createUserRequestMessage = new CreateUserRequestMessage
-                                       {
-                                           FirstName = firstName,
-                                           LastName = lastName
-                                       };
+        var userFirstAndLastNameMessage = new UserFirstAndLastNameMessage
+                                          {
+                                              FirstName = firstName,
+                                              LastName = lastName
+                                          };
         var request = new RestRequest("api/users", Method.Post);
-        request.AddJsonBody(createUserRequestMessage);
+        request.AddJsonBody(userFirstAndLastNameMessage);
 
         var expectedResult = new UserMessage
                              {
@@ -48,7 +48,7 @@ public class GrpcInterceptorTests
                              };
 
         _mockUserService
-            .Setup(x => x.Create(It.IsAny<string>(),It.IsAny<string>(), It.IsAny<string>()))
+            .Setup(x => x.Create(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()))
             .ReturnsAsync((string _, string fName, string lName) => new Result<User>(new User(1, fName, lName)));
 
         // Act
@@ -66,14 +66,14 @@ public class GrpcInterceptorTests
         var firstName = "first";
         var lastName = "last";
 
-        var createUserRequestMessage = new CreateUserRequestMessage
-                                       {
-                                           FirstName = firstName,
-                                           LastName = lastName
-                                       };
+        var userFirstAndLastNameMessage = new UserFirstAndLastNameMessage
+                                          {
+                                              FirstName = firstName,
+                                              LastName = lastName
+                                          };
         var request = new RestRequest("api/users", Method.Post);
 
-        request.AddJsonBody(createUserRequestMessage);
+        request.AddJsonBody(userFirstAndLastNameMessage);
         _mockUserService
             .Setup(x => x.Create(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()))
             .ThrowsAsync(new NullReferenceException());
@@ -83,7 +83,7 @@ public class GrpcInterceptorTests
 
         // Assert
         result.StatusCode.Should().Be(HttpStatusCode.InternalServerError);
-        result.Data!.Code.Should().Be((int)StatusCode.Internal);
+        result.Data!.Code.Should().Be((int) StatusCode.Internal);
         result.Data!.Message.Should().Be("Internal error.");
     }
 
@@ -95,14 +95,14 @@ public class GrpcInterceptorTests
         var lastName = "last";
         var errorMessage = "not found";
 
-        var createUserRequestMessage = new CreateUserRequestMessage
-                                       {
-                                           FirstName = firstName,
-                                           LastName = lastName
-                                       };
+        var userFirstAndLastNameMessage = new UserFirstAndLastNameMessage
+                                          {
+                                              FirstName = firstName,
+                                              LastName = lastName
+                                          };
         var request = new RestRequest("api/users", Method.Post);
 
-        request.AddJsonBody(createUserRequestMessage);
+        request.AddJsonBody(userFirstAndLastNameMessage);
         _mockUserService
             .Setup(x => x.Create(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()))
             .ThrowsAsync(new TestSampleNotFoundException(errorMessage));
@@ -124,14 +124,14 @@ public class GrpcInterceptorTests
         var lastName = "last";
         var errorMessage = "invalid";
 
-        var createUserRequestMessage = new CreateUserRequestMessage
-                                       {
-                                           FirstName = firstName,
-                                           LastName = lastName
-                                       };
+        var userFirstAndLastNameMessage = new UserFirstAndLastNameMessage
+                                          {
+                                              FirstName = firstName,
+                                              LastName = lastName
+                                          };
         var request = new RestRequest("api/users", Method.Post);
 
-        request.AddJsonBody(createUserRequestMessage);
+        request.AddJsonBody(userFirstAndLastNameMessage);
         _mockUserService
             .Setup(x => x.Create(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()))
             .ThrowsAsync(new TestSampleValidationException(errorMessage));

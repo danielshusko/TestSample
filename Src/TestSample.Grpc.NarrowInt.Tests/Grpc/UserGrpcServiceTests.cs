@@ -34,7 +34,7 @@ public class UserGrpcServiceTests
 
         // Act
         var result = _usersClient.Create(
-            new CreateUserRequestMessage
+            new UserFirstAndLastNameMessage
             {
                 FirstName = firstName,
                 LastName = lastName

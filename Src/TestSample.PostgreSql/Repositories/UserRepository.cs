@@ -53,4 +53,19 @@ public class UserRepository : IUserRepository
 
         return user;
     }
+
+    public async Task<Result<User>> GetByFirstAndLastName(string tenantId, string firstName, string lastName)
+    {
+        var user = await _context.Users
+                                 .Where(x => x.TenantId == tenantId && x.FirstName == firstName && x.LastName == lastName)
+                                 .Select(x => new User(x.Id, x.FirstName, x.LastName))
+                                 .FirstOrDefaultAsync();
+
+        if (user == null)
+        {
+            return new TestSampleNotFoundException("User not found");
+        }
+
+        return user;
+    }
 }

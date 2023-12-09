@@ -22,4 +22,5 @@ public class UserService : IUserService
     }
 
     public Task<Result<User>> GetById(string tenantId, int userId) => _userRepository.GetById(tenantId, userId);
+    public Task<Result<User>> GetByFirstAndLastName(string tenantId, string firstName, string lastName) => _userRepository.GetByFirstAndLastName(tenantId, firstName, lastName);
 }

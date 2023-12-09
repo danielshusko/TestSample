@@ -11,7 +11,7 @@ package user;
 
 service Users {
   // Creates a new Location.
-  rpc Create (CreateUserRequestMessage) returns (UserMessage) {
+  rpc Create (UserFirstAndLastNameMessage) returns (UserMessage) {
 	option (google.api.http) = {
       post: "/api/users",
       body: "*"
@@ -24,6 +24,13 @@ service Users {
       get: "/api/users/{id}"
     };
   }
+
+  // Gets a Location by its id.
+  rpc GetByFirstAndLastName (UserFirstAndLastNameMessage) returns (UserMessage) {
+	option (google.api.http) = {
+      get: "/api/users/searchByName"
+    };
+  }
 }
 
 message IdMessage{
@@ -31,7 +38,7 @@ message IdMessage{
     int32 id = 2;
 }
 
-message CreateUserRequestMessage {
+message UserFirstAndLastNameMessage {
     string tenant_id = 1;
     string first_name = 2;
     string last_name = 3;

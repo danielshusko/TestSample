@@ -56,7 +56,8 @@ public class UserRepositoryTests : BaseRepositoryTests
         result.Error!.Type.Should().Be(TestSampleExceptionType.Unknown);
         result.Error!.InnerException.Should().BeOfType<DbUpdateException>();
         result.Error!.InnerException!.InnerException.Should().BeOfType<PostgresException>();
-        result.Error!.InnerException!.InnerException.As<PostgresException>().Message.Should().StartWith("23505: duplicate key value violates unique constraint \"IX_User_TenantId_FirstName_LastName\"");
+        result.Error!.InnerException!.InnerException.As<PostgresException>().Message.Should()
+              .StartWith("23505: duplicate key value violates unique constraint \"IX_User_TenantId_FirstName_LastName\"");
     }
 
     [Fact]

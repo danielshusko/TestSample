@@ -16,7 +16,7 @@ public class UserGrpcService : Users.UsersBase
         _userService = userService;
     }
 
-    public override async Task<UserMessage> Create(CreateUserRequestMessage request, ServerCallContext context)
+    public override async Task<UserMessage> Create(UserFirstAndLastNameMessage request, ServerCallContext context)
     {
         var userResult = await _userService.Create(request.TenantId, request.FirstName, request.LastName);
         return HandleResult(
@@ -33,6 +33,20 @@ public class UserGrpcService : Users.UsersBase
     public override async Task<UserMessage> GetById(IdMessage request, ServerCallContext context)
     {
         var userResult = await _userService.GetById(request.TenantId, request.Id);
+        return HandleResult(
+            userResult,
+            user => new UserMessage
+                    {
+                        Id = user.Id,
+                        FirstName = user.FirstName,
+                        LastName = user.LastName
+                    }
+        );
+    }
+
+    public override async Task<UserMessage> GetByFirstAndLastName(UserFirstAndLastNameMessage request, ServerCallContext context)
+    {
+        var userResult = await _userService.GetByFirstAndLastName(request.TenantId, request.FirstName, request.LastName);
         return HandleResult(
             userResult,
             user => new UserMessage

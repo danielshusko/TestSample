@@ -3,7 +3,6 @@ using Grpc.Core;
 using TechTalk.SpecFlow;
 using TechTalk.SpecFlow.Assist;
 using TestSample.Domain;
-using TestSample.Domain.Exceptions;
 using TestSample.Domain.Users;
 using TestSample.Grpc.proto;
 
@@ -14,8 +13,8 @@ public class UserThenSteps : UserBaseSteps
 {
     protected UserThenSteps(ScenarioContext scenarioContext, UserGrpcClient client) : base(scenarioContext, client) { }
 
-    [Then(@"the user should be created with the following properties")]
-    public void ThenTheUserShouldBeCreatedWithTheFollowingProperties(Table table)
+    [Then(@"the a user is returned with the following properties")]
+    public void ThenTheAUserIsReturnedWithTheFollowingProperties(Table table)
     {
         var userResult = ScenarioContext.Get<Result<UserMessage, RpcException>>();
         userResult.IsSuccess.Should().BeTrue();
@@ -24,8 +23,8 @@ public class UserThenSteps : UserBaseSteps
 
         userResult.Value!.Should().BeEquivalentTo(
             expectedUser,
-            options=>options.Excluding(x=>x.Id)
-            );
+            options => options.Excluding(x => x.Id)
+        );
     }
 
     [Then(@"an error with status code ""([^""]*)"" should be returned")]

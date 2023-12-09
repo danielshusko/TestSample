@@ -46,7 +46,7 @@ public class UserServiceTests
         var lastName = "Name";
 
         // Act
-        var result = _userService.Create(TenantId,firstName, lastName).Result;
+        var result = _userService.Create(TenantId, firstName, lastName).Result;
 
         // Assert
         result.IsSuccess.Should().BeFalse();

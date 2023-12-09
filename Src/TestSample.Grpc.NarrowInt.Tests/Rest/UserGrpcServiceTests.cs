@@ -18,7 +18,7 @@ public class UserGrpcServiceTests
     public UserGrpcServiceTests()
     {
         _mockUserService = new Mock<IUserService>();
-        
+
         var integrationTestServer = new IntegrationTestServer(new MockService(typeof(IUserService), _mockUserService.Object));
         _usersClient = new RestClient(integrationTestServer.HttpClient);
     }
@@ -30,13 +30,13 @@ public class UserGrpcServiceTests
         var firstName = "first";
         var lastName = "last";
 
-        var createUserRequestMessage = new CreateUserRequestMessage
-                 {
-                     FirstName = firstName,
-                     LastName = lastName
-                 };
+        var userFirstAndLastNameMessage = new UserFirstAndLastNameMessage
+                                          {
+                                              FirstName = firstName,
+                                              LastName = lastName
+                                          };
         var request = new RestRequest("api/users", Method.Post);
-        request.AddJsonBody(createUserRequestMessage);
+        request.AddJsonBody(userFirstAndLastNameMessage);
 
         var expectedResult = new UserMessage
                              {

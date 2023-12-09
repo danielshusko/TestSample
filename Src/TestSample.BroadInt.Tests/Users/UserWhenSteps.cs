@@ -1,6 +1,4 @@
-using NUnit.Framework;
 using TechTalk.SpecFlow;
-using TestSample.Tests.Framework.Specflow;
 
 namespace TestSample.BroadInt.Tests.Users;
 
@@ -13,7 +11,14 @@ public class UserWhenSteps : UserBaseSteps
     [When(@"a user is created with first name ""([^""]*)"" and last name ""([^""]*)""")]
     public void WhenAUserIsCreatedWithFirstNameAndLastName(string first, string last)
     {
-        var userResult = Client.Create(ScenarioContext.GetByKey<string>(ScenarioContextKey.TenantId)!, first, last);
+        var userResult = Client.Create(TenantId, first, last);
+        ScenarioContext.Set(userResult);
+    }
+
+    [When(@"a user is retrieved with first name ""([^""]*)"" and last name ""([^""]*)""")]
+    public void WhenAUserIsRetrievedWithFirstNameAndLastName(string first, string last)
+    {
+        var userResult = Client.GetByFirstAndLastName(TenantId, first, last);
         ScenarioContext.Set(userResult);
     }
 }
