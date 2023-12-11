@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json.schemastore.org/launchsettings.json",
+  "iisSettings": {
+    "windowsAuthentication": false,
+    "anonymousAuthentication": true,
+    "iisExpress": {
+      "applicationUrl": "http://localhost:30782",
+      "sslPort": 44320
+    }
+  },
+  "profiles": {
+    "User": {
+      "commandName": "Project",
+      "dotnetRunMessages": true,
+      "applicationUrl": "http://localhost:5143",
+        "environmentVariables": {
+            "ASPNETCORE_ENVIRONMENT": "Development",
+            "PostgreSql__UserId": "postgres",
+            "PostgreSql__Password": "admin",
+            "PostgreSql__Server": "localhost",
+            "PostgreSql__Port": "5432",
+            "PostgreSql__Database": "postgres",
+            "PostgreSql__Schema": "test_sample",
+            "PostgreSql__RunMigrationOnStart": "true"
+        }
+    }
+  }
+}
