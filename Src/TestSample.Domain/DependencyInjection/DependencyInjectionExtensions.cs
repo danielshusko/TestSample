@@ -11,6 +11,7 @@ public static class DependencyInjectionExtensions
         this IServiceCollection serviceCollection
     )
     {
+        serviceCollection.AddScoped<IRequestService, RequestService>();
         serviceCollection.AddScoped<IUserService, UserService>();
 
         return serviceCollection;

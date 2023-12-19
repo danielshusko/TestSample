@@ -1,4 +1,5 @@
 using FluentAssertions;
+using Grpc.Core;
 using Moq;
 using TestSample.Domain;
 using TestSample.Domain.Users;
@@ -17,7 +18,7 @@ public class UserGrpcServiceTests
     {
         _mockUserService = new Mock<IUserService>();
 
-        var integrationTestServer = new IntegrationTestServer(new MockService(typeof(IUserService), _mockUserService.Object));
+        var integrationTestServer = new IntegrationTestServer();
         _usersClient = new Users.UsersClient(integrationTestServer.Channel);
     }
 
@@ -29,8 +30,8 @@ public class UserGrpcServiceTests
         var lastName = "last";
 
         _mockUserService
-            .Setup(x => x.Create(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()))
-            .ReturnsAsync((string _, string fName, string lName) => new Result<User>(new User(1, fName, lName)));
+            .Setup(x => x.Create(It.IsAny<string>(), It.IsAny<string>()))
+            .ReturnsAsync((string fName, string lName) => new Result<User>(new User(1, fName, lName)));
 
         // Act
         var result = _usersClient.Create(
@@ -38,10 +39,14 @@ public class UserGrpcServiceTests
             {
                 FirstName = firstName,
                 LastName = lastName
+            },
+            new Metadata
+            {
+                { Constants.TenantIdKey, Guid.NewGuid().ToString() }
             });
 
         // Assert
-        result.Id.Should().Be(1);
+        result.Id.Should().BeGreaterThan(0);
         result.FirstName.Should().Be(firstName);
         result.LastName.Should().Be(lastName);
     }

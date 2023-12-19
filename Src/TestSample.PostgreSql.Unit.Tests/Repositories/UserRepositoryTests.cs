@@ -1,4 +1,6 @@
 using FluentAssertions;
+using Moq;
+using TestSample.Domain;
 using TestSample.PostgreSql.Repositories;
 using TestSample.PostgreSql.Unit.Tests.Mocks;
 using Xunit;
@@ -9,8 +11,17 @@ public class UserRepositoryTests
 {
     private const string TenantId = "tenant";
 
-    private readonly UserRepository _userRepository = new(InMemoryDb.NewTestSampleContext());
+    private readonly UserRepository _userRepository;
 
+    public UserRepositoryTests()
+    {
+        Mock<IRequestService> mockRequestService = new();
+        mockRequestService
+            .Setup(x => x.GetTenantId())
+            .Returns(TenantId);
+
+        _userRepository = new UserRepository(InMemoryDb.NewTestSampleContext(), mockRequestService.Object);
+    }
     [Fact]
     public void Create_WithValidData_ReturnsUser()
     {
@@ -19,7 +30,7 @@ public class UserRepositoryTests
         var lastName = "last";
 
         // Act
-        var result = _userRepository.Create(TenantId, firstName, lastName).Result;
+        var result = _userRepository.Create(firstName, lastName).Result;
 
         // Assert
         result.IsSuccess.Should().BeTrue();
