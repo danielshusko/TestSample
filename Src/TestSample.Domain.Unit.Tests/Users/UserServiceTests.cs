@@ -15,8 +15,13 @@ public class UserServiceTests
     {
         Mock<IUserRepository> mockUserRepository = new();
         mockUserRepository
-            .Setup(x => x.Create(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()))
-            .ReturnsAsync((string _, string firstName, string lastName) => new User(1, firstName, lastName));
+            .Setup(x => x.Create(It.IsAny<string>(), It.IsAny<string>()))
+            .ReturnsAsync((string firstName, string lastName) => new User(1, firstName, lastName));
+
+        Mock<IRequestService> mockRequestService = new();
+        mockRequestService
+            .Setup(x => x.GetTenantId())
+            .Returns(TenantId);
 
         _userService = new UserService(mockUserRepository.Object);
     }
@@ -29,7 +34,7 @@ public class UserServiceTests
         var lastName = "Name";
 
         // Act
-        var result = _userService.Create(TenantId, firstName, lastName).Result;
+        var result = _userService.Create(firstName, lastName).Result;
 
         // Assert
         result.IsSuccess.Should().BeTrue();
@@ -46,7 +51,7 @@ public class UserServiceTests
         var lastName = "Name";
 
         // Act
-        var result = _userService.Create(TenantId, firstName, lastName).Result;
+        var result = _userService.Create(firstName, lastName).Result;
 
         // Assert
         result.IsSuccess.Should().BeFalse();

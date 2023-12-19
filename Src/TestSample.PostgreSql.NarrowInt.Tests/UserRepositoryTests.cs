@@ -1,6 +1,8 @@
 using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
+using Moq;
 using Npgsql;
+using TestSample.Domain;
 using TestSample.Domain.Exceptions;
 using TestSample.Domain.Users;
 using TestSample.PostgreSql.Repositories;
@@ -16,7 +18,13 @@ public class UserRepositoryTests : BaseRepositoryTests
     public UserRepositoryTests()
     {
         _tenantId = Guid.NewGuid().ToString();
-        _userRepository = new UserRepository(_context);
+
+        Mock<IRequestService> mockRequestService = new();
+        mockRequestService
+            .Setup(x => x.GetTenantId())
+            .Returns(_tenantId);
+
+        _userRepository = new UserRepository(_context, mockRequestService.Object);
     }
 
     [Fact]
@@ -29,7 +37,7 @@ public class UserRepositoryTests : BaseRepositoryTests
         var expectedResult = new User(-1, firstName, lastName);
 
         // Act
-        var result = _userRepository.Create(_tenantId, firstName, lastName).Result;
+        var result = _userRepository.Create(firstName, lastName).Result;
 
         // Assert
         result.IsSuccess.Should().BeTrue();
@@ -47,9 +55,9 @@ public class UserRepositoryTests : BaseRepositoryTests
         var lastName = $"last_{DateTime.UtcNow:yyyyMMddHHmmssffff}";
 
         // Act
-        var result = _userRepository.Create(_tenantId, firstName, lastName).Result;
+        var result = _userRepository.Create(firstName, lastName).Result;
         result.IsSuccess.Should().BeTrue();
-        result = _userRepository.Create(_tenantId, firstName, lastName).Result;
+        result = _userRepository.Create(firstName, lastName).Result;
 
         // Assert
         result.IsSuccess.Should().BeFalse();
@@ -68,7 +76,7 @@ public class UserRepositoryTests : BaseRepositoryTests
         var lastName = $"last_{DateTime.UtcNow:yyyyMMddHHmmssffff}";
 
         // Act
-        var result = _userRepository.Create(_tenantId, firstName, lastName).Result;
+        var result = _userRepository.Create( firstName, lastName).Result;
 
         // Assert
         result.IsSuccess.Should().BeFalse();

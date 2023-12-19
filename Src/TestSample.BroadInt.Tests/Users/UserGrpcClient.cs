@@ -20,7 +20,6 @@ public class UserGrpcClient : BaseGrpcClient
             return _client.Create(
                 new UserFirstAndLastNameMessage
                 {
-                    TenantId = tenantId,
                     FirstName = firstName,
                     LastName = lastName
                 });
@@ -54,7 +53,6 @@ public class UserGrpcClient : BaseGrpcClient
             return _client.GetByFirstAndLastName(
                 new UserFirstAndLastNameMessage
                 {
-                    TenantId = tenantId,
                     FirstName = firstName,
                     LastName = lastName
                 });

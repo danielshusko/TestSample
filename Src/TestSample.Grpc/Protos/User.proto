@@ -34,14 +34,12 @@ service Users {
 }
 
 message IdMessage{
-    string tenant_id = 1;
-    int32 id = 2;
+    int32 id = 1;
 }
 
 message UserFirstAndLastNameMessage {
-    string tenant_id = 1;
-    string first_name = 2;
-    string last_name = 3;
+    string first_name = 1;
+    string last_name = 2;
 }
 
 message UserMessage {

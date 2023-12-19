@@ -12,7 +12,7 @@ public class UserWhenSteps : UserBaseSteps
     [When(@"a user is created with first name ""([^""]*)"" and last name ""([^""]*)""")]
     public void WhenAUserIsCreatedWithFirstNameAndLastName(string first, string last)
     {
-        var user = UserService.Create(TenantId, first, last).Result;
+        var user = UserService.Create(first, last).Result;
         ScenarioContext.Set(user);
     }
 }
