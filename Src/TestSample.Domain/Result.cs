@@ -1,5 +1,4 @@
 using TestSample.Domain.Exceptions;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace TestSample.Domain;
 
