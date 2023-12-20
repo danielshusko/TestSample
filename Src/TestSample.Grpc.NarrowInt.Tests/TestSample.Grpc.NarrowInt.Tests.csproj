@@ -10,10 +10,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="IUserClient.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
       <PackageReference Include="FluentAssertions" Version="6.12.0" />
       <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" />
     <PackageReference Include="Grpc.Net.Client" Version="2.55.0" />
