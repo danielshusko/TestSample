@@ -1,9 +1,5 @@
 using System.Net;
 using FluentAssertions;
-using Moq;
-using RestSharp;
-using TestSample.Domain;
-using TestSample.Domain.Users;
 using TestSample.Grpc.proto;
 using TestSample.Tests.Framework.TestServer;
 using Xunit;
@@ -12,16 +8,7 @@ namespace TestSample.Grpc.NarrowInt.Tests.Rest;
 
 public class UserGrpcServiceTests
 {
-    private readonly Mock<IUserService> _mockUserService;
-    private readonly RestClient _usersClient;
-
-    public UserGrpcServiceTests()
-    {
-        _mockUserService = new Mock<IUserService>();
-
-        var integrationTestServer = new IntegrationTestServer(new MockService(typeof(IUserService), _mockUserService.Object));
-        _usersClient = new RestClient(integrationTestServer.HttpClient);
-    }
+    private readonly UserRestClient _client = new(new IntegrationTestServer());
 
     [Fact]
     public void Create_WithValidData_ReturnsUser()
@@ -29,31 +16,15 @@ public class UserGrpcServiceTests
         // Arrange
         var firstName = "first";
         var lastName = "last";
-
-        var userFirstAndLastNameMessage = new UserFirstAndLastNameMessage
-                                          {
-                                              FirstName = firstName,
-                                              LastName = lastName
-                                          };
-        var request = new RestRequest("api/users", Method.Post);
-        request.AddJsonBody(userFirstAndLastNameMessage);
-
-        var expectedResult = new UserMessage
-                             {
-                                 Id = 1,
-                                 FirstName = firstName,
-                                 LastName = lastName
-                             };
-
-        _mockUserService
-            .Setup(x => x.Create(It.IsAny<string>(), It.IsAny<string>()))
-            .ReturnsAsync((string fName, string lName) => new Result<User>(new User(1, fName, lName)));
-
+        
         // Act
-        var result = _usersClient.Execute<UserMessage>(request);
+        var result = _client.Create(firstName, lastName);
 
         // Assert
-        result.StatusCode.Should().Be(HttpStatusCode.OK);
-        result.Data.Should().BeEquivalentTo(expectedResult);
+        result.IsHttpSuccess().Should().BeTrue();
+        result.GetHttpStatusCode().Should().Be(HttpStatusCode.OK);
+        result.Value!.Id.Should().BeGreaterThan(0);
+        result.Value.FirstName.Should().Be(firstName);
+        result.Value.LastName.Should().Be(lastName);
     }
 }
