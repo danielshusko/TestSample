@@ -5,6 +5,9 @@ using TestSample.Tests.Framework.TestServer;
 
 namespace TestSample.Grpc.NarrowInt.Tests.Grpc;
 
+/// <summary>
+/// This is a base grpc client, which contains everything a grpc client requires.
+/// </summary>
 public class BaseGrpcClient : BaseClient
 {
     protected readonly GrpcChannel Channel;
@@ -13,6 +16,8 @@ public class BaseGrpcClient : BaseClient
     protected BaseGrpcClient(IntegrationTestServer testServer)
     {
         Channel = testServer.Channel;
+
+        //This property is wraps the channel required for the grpc client and adds the required headers to every request.
         ChannelWithHeaders = Channel.Intercept(
             metadata =>
             {
@@ -25,6 +30,9 @@ public class BaseGrpcClient : BaseClient
             });
     }
 
+    /// <summary>
+    /// This method will execute a grpc request and handles any exceptions.
+    /// </summary>
     protected static ApiResult<TModel> ExecuteMethod<TResponse, TModel>(Func<TResponse> clientMethod, Func<TResponse, TModel> mapFunc)
     {
         try

@@ -3,6 +3,12 @@ using Grpc.Core;
 
 namespace TestSample.Grpc.NarrowInt.Tests;
 
+/// <summary>
+/// This class follows the result pattern, which lets us test results without relying on exceptions for flow logic.
+///
+/// This supports both grpc and rest status codes, but the implementation is awkward and can probably be cleaned up.
+/// </summary>
+/// <typeparam name="T"></typeparam>
 public class ApiResult<T>
 {
     public T? Value { get; }

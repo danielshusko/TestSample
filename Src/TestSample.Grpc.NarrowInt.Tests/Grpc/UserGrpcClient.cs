@@ -21,6 +21,8 @@ public class UserGrpcClient : BaseGrpcClient, IUserClient
             FirstName = firstName,
             LastName = lastName
         };
+
+        //Entity clients need to wrap calls with a simple definition and mapping.
         return ExecuteMethod(
             () => _client.Create(request),
             x => new User(x.Id, x.FirstName, x.LastName)
